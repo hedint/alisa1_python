@@ -35,7 +35,6 @@ sessionStorage = {}
 # который отправила нам Алиса в запросе POST
 def main():
     logging.info(f'Request: {request.json!r}')
-
     # Начинаем формировать ответ, согласно документации
     # мы собираем словарь, который потом при помощи
     # библиотеки json преобразуем в JSON и отдадим Алисе
@@ -86,13 +85,13 @@ def handle_dialog(req, res):
     # что нам прислал пользователь
     # Если он написал 'ладно', 'куплю', 'покупаю', 'хорошо',
     # то мы считаем, что пользователь согласился.
-    # Подумайте, всё ли в этом фрагменте написано "красиво"?
-    if req['request']['original_utterance'].lower() in [
+    user_text = req['request']['original_utterance'].lower()
+    if any(map(lambda item: item in user_text, [
         'ладно',
         'куплю',
         'покупаю',
         'хорошо'
-    ]:
+    ])):
         # Пользователь согласился, прощаемся.
         res['response']['text'] = 'Слона можно найти на Яндекс.Маркете!'
         res['response']['end_session'] = True
