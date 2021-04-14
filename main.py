@@ -1,8 +1,7 @@
 # импортируем библиотеки
 from flask import Flask, request
-from flask_ngrok import run_with_ngrok
 import logging
-
+import os
 # библиотека, которая нам понадобится для работы с JSON
 import json
 
@@ -14,7 +13,6 @@ import json
 # если бы такое обращение, например,
 # произошло внутри модуля logging, то мы бы получили 'logging'
 app = Flask(__name__)
-run_with_ngrok(app)
 # Устанавливаем уровень логирования
 logging.basicConfig(level=logging.INFO)
 
@@ -133,4 +131,6 @@ def get_suggests(user_id):
 
 
 if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
     app.run()
